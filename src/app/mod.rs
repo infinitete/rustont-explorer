@@ -35,17 +35,11 @@ impl App {
     }
 
     pub fn start(&mut self) {
-
         let mut chain = Chain::new(self.route());
-
         let pool = get_connection();
-
         chain.link(Read::<MyPool>::both(pool));
-
         let server = Iron::new(chain).http(format!("{}:{}", &self.host, &self.port));
-
-        println!("Server started as {}:{}", &self.host, &self.port);
-
+        println!("Server served on {}:{}", &self.host, &self.port);
         server.unwrap();
     }
 }
