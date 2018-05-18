@@ -1,12 +1,13 @@
 extern crate iron;
 extern crate persistent;
+extern crate router;
 
-use super::router::Router;
 use handler::*;
 use common::MyPool;
 use common::get_connection;
 use middleware::Header;
 
+use self::router::Router;
 use self::iron::prelude::*;
 use self::persistent::Read;
 use self::iron::middleware::Chain;
@@ -26,11 +27,21 @@ impl App {
         }
     }
 
+    ///
     /// 路由和handler在这里配置
+    ///
     pub fn route(&self) -> Router {
         let mut router = Router::new();
-        router.add_route(("api/v1/block/height").to_string(), block_height);
-        router.add_route(("api/v1/block/detail").to_string(), block_detail);
+        router.get(
+            ("api/v1/block/height").to_string(),
+            block_height,
+            "getblockheight",
+        );
+        router.get(
+            ("api/v1/block/:param").to_string(),
+            block_detail,
+            "queryblock",
+        );
 
         return router;
     }
