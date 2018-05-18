@@ -7,3 +7,4 @@ pub mod handler;
 pub mod router;
 pub mod model;
 pub mod datastruct;
+pub mod middleware;

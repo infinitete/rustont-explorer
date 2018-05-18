@@ -5,6 +5,7 @@ use super::router::Router;
 use handler::*;
 use common::MyPool;
 use common::get_connection;
+use middleware::Header;
 
 use self::iron::prelude::*;
 use self::persistent::Read;
@@ -21,7 +22,7 @@ impl App {
         App {
             started: false,
             host: host,
-            port: port
+            port: port,
         }
     }
 
@@ -38,9 +39,9 @@ impl App {
         let mut chain = Chain::new(self.route());
         let pool = get_connection();
         chain.link(Read::<MyPool>::both(pool));
+        chain.link_after(Header);
         let server = Iron::new(chain).http(format!("{}:{}", &self.host, &self.port));
         println!("Server served on {}:{}", &self.host, &self.port);
         server.unwrap();
     }
 }
-

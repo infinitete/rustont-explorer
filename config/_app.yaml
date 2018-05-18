@@ -1,10 +1,10 @@
 server:
-  host: "0.0.0.0"
+  host: "0.0.0.0" 
   port: 3000
 
 mysql:
-  host: "192.168.1.19"
-  port: 23306
+  host: "192.168.1.19"  # must be a string
+  port: 23306           # must be a number from 1 ~ 2^16-1
   user: "root"
   pass: "123456"
   dbname: "explorer"
